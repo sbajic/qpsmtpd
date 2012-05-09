@@ -6,6 +6,11 @@ use warnings;
 sub register_tests {
     my $self = shift;
 
+    eval 'use DBI';
+    if ( $@ ) {
+        warn "skipping auth_vpopmail_sql tests, is DBI installed?\n";
+        return;
+    };
     $self->register_test("auth_vpopmail_sql", 3);
 }
 
