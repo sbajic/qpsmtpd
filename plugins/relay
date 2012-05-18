@@ -81,6 +81,10 @@ I<config/plugins> as shown:
 
   relay only 1
 
+=head2 loglevel
+
+Adjust the quantity of logging for this plugin. See docs/logging.pod
+
 =head1 AUTHOR
 
 2012 - Matt Simerson - Merged check_relay, check_norelay, and relayonly
