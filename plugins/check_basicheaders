@@ -59,6 +59,10 @@ Default policy is a permanent rejection.
 
 Adjust the quantity of logging for this plugin. See docs/logging.pod
 
+=head2 loglevel
+
+Adjust the quantity of logging for this plugin. See docs/logging.pod
+
 =head1 AUTHOR
 
  2004 - Written by Jim Winstead Jr.
