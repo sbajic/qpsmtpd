@@ -24,6 +24,14 @@ unset, messages are not rejected based on the date.
 
   check_basicheaders [ days 3 ]
 
+=head2 reject
+
+A boolean. Determines if the connection is denied or not. Use this option
+when first enabling the plugin, and then watch your logs to see what would
+have been rejected.
+
+Default policy is to reject.
+
 =head2 reject_type
 
 Whether to issue a permanent or temporary rejection. The default is permanent.
@@ -33,6 +41,10 @@ Whether to issue a permanent or temporary rejection. The default is permanent.
 Switching to a temporary rejection is most useful when testing the plugin. It
 allows an administrator to watch for a test period and make sure no valid mail
 is getting rejected.
+
+=head2 loglevel
+
+Adjust the quantity of logging for this plugin. See docs/logging.pod
 
 =head1 AUTHOR
 
@@ -67,6 +79,7 @@ sub hook_data_post {
     my ($self, $transaction) = @_;
 
     my $deny = $self->{_args}{reject_type} eq 'temp' ? DENYSOFT : DENY;
+    $deny = DECLINED if defined $self->{_args}{reject} && ! $self->{_args}{reject};
 
     if ( $transaction->data_size == 0 ) {
         $self->log(LOGINFO, "fail: no data");
