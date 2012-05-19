@@ -51,7 +51,7 @@ Whether to issue a permanent or temporary rejection. The default is permanent.
 
   check_basicheaders reject_type [ temp | perm ]
 
-Using a temporary rejection is a cautious way to enable rejections. It allows an administrator to watch for a trial period and assure no valid messages are rejected. If a deferral of valid mail is noticed, I<reject 0> can be set to permit the deffered message to be delivered.
+Using a temporary rejection is a cautious way to enable rejections. It allows an administrator to watch for a trial period and assure no valid messages are rejected. If a deferral of valid mail is noticed, I<reject 0> can be set to permit the deferred message to be delivered.
 
 Default policy is a permanent rejection.
 
@@ -94,7 +94,7 @@ sub register {
     };
 # provide backwards comptibility with the old 'days' argument
     if ( $self->{_args}{days} ) {
-        $self->log(LOGWARN, "deprecated arguments. Update your config.");
+        $self->log(LOGWARN, "deprecated argument 'days', update your config.");
         if ( ! defined $self->{_args}{future} ) {
             $self->{_args}{future} = $self->{_args}{days};
         };
