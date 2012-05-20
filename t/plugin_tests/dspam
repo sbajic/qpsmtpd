@@ -14,6 +14,7 @@ sub register_tests {
     $self->register_test('test_get_filter_cmd', 5);
     $self->register_test('test_get_dspam_results', 6);
     $self->register_test('test_dspam_reject', 6);
+    $self->register_test('test_reject_type', 3);
 }
 
 sub test_dspam_reject {
@@ -111,3 +112,15 @@ sub test_get_filter_cmd {
         "smtpd, spam" );
 };
 
+sub test_reject_type {
+    my $self = shift;
+
+    $self->{_args}{reject_type} = undef;
+    cmp_ok( $self->get_reject_type(), '==', DENY, "default");
+
+    $self->{_args}{reject_type} = 'temp';
+    cmp_ok( $self->get_reject_type(), '==', DENYSOFT, "defer");
+
+    $self->{_args}{reject_type} = 'disconnect';
+    cmp_ok( $self->get_reject_type(), '==', DENY_DISCONNECT, "disconnect");
+};
