@@ -131,12 +131,21 @@ and 1.0 is 100% confidence.
 If dspam's confidence is greater than or equal to this threshold, the
 message will be rejected. The default is 1.00.
 
+  dspam reject .95
+
+To only reject mail if dspam and spamassassin both think the message is spam,
+set I<reject agree>.
+
 =head2 reject_type
 
- reject_type [ temp | perm ]
+ reject_type [ perm | temp | disconnect ]
 
-By default, rejects are permanent (5xx). Set this to temp if you want to
-defer mail instead of rejecting it with dspam.
+By default, rejects are permanent (5xx). Set I<reject_type temp> to
+defer mail instead of rejecting it.
+
+Set I<reject_type disconnect> if you'd prefer to immediately disconnect
+the connection when a spam is encountered. This prevents the remote server
+from issuing a reset and attempting numerous times in a single connection.
 
 =head1 MULTIPLE RECIPIENT BEHAVIOR
 
@@ -172,7 +181,7 @@ sub register {
 
     $self->{_args} = { %args };
     $self->{_args}{reject} = defined $args{reject} ? $args{reject} : 1;
-    $self->{_args}{reject_type} = $args{reject_type} || 'perm';
+    $self->{_args}{reject_type} ||= 'perm';
 
     $self->register_hook('data_post', 'dspam_reject');
 }
@@ -319,8 +328,8 @@ sub dspam_reject {
 
     # dspam is more than $reject percent sure this message is spam
     $self->log(LOGINFO, "fail: $d->{class}, ($d->{confidence} confident)");
-    my $deny = $self->{_args}{reject_type} eq 'temp' ? DENYSOFT : DENY;
-    return Qpsmtpd::DSN->media_unsupported($deny,'dspam says, no spam please');
+    my $deny = $self->get_reject_type();
+    return Qpsmtpd::DSN->media_unsupported($deny, 'dspam says, no spam please');
 }
 
 sub dspam_reject_agree {
@@ -403,4 +412,11 @@ sub get_filter_cmd {
     return $default;
 };
 
+sub get_reject_type {
+    my $self = shift;
+    my $deny = $self->{_args}{reject_type} or return DENY;
 
+    return $deny eq 'temp'       ? DENYSOFT
+         : $deny eq 'disconnect' ? DENY_DISCONNECT
+         : DENY;
+};
