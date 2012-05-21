@@ -451,13 +451,13 @@ sub rcpt_respond {
   }
   elsif ($rc == DENY_DISCONNECT) {
       $msg->[0] ||= 'delivery denied';
-      $self->log(LOGINFO, "delivery denied (@$msg)");
+      $self->log(LOGDEBUG, "delivery denied (@$msg)");
       $self->respond(550, @$msg);
       $self->disconnect;
   }
   elsif ($rc == DENYSOFT_DISCONNECT) {
     $msg->[0] ||= 'relaying denied';
-    $self->log(LOGINFO, "delivery denied (@$msg)");
+    $self->log(LOGDEBUG, "delivery denied (@$msg)");
     $self->respond(421, @$msg);
     $self->disconnect;
   }
