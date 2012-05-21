@@ -3,6 +3,10 @@ When upgrading from:
 
 v 0.84 or below
 
+CHECK_RELAY, CHECK_NORELAY, RELAY_ONLY
+
+    All 3 plugins are deprecated and replaced with a new 'relay' plugin.
+
 GREYLISTING plugin:
 
     'mode' config argument is deprecated. Use reject and reject_type instead.
