@@ -33,9 +33,9 @@ require_resolvable_fromhost
 
 rhsbl
 dnsbl
-check_badmailfrom
-check_badmailfromto
-check_badrcptto
+badmailfrom
+badmailfromto
+badrcptto
 check_spamhelo
 
 sender_permitted_from
