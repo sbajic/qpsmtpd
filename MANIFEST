@@ -168,6 +168,7 @@ t/plugin_tests/count_unrecognized_commands
 t/plugin_tests/dnsbl
 t/plugin_tests/dspam
 t/plugin_tests/greylisting
+t/plugin_tests/ident/geoip
 t/plugin_tests/ident/p0f
 t/plugin_tests/rcpt_ok
 t/plugin_tests/relay
